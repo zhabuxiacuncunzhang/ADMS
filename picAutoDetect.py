@@ -4,7 +4,7 @@ version:
 Author: Xuesong_Zhang
 Date: 2023-02-28 21:16:34
 LastEditors: Xuesong_Zhang
-LastEditTime: 2023-03-01 19:59:28
+LastEditTime: 2023-03-01 20:21:51
 '''
 import os
 import sys
@@ -30,6 +30,7 @@ def load_model():
     print("Load Model Parameter")
     ROOT_DIR = os.getcwd()
     MODEL_DIR = os.path.join(ROOT_DIR, "parameter")
+    # parameter file in parameter folder
     COCO_MODEL_PATH = os.path.join(MODEL_DIR, "mask_rcnn_shapes_0003.h5")
 
     if not os.path.exists(COCO_MODEL_PATH):
