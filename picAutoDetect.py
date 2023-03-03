@@ -4,7 +4,7 @@ version:
 Author: Xuesong_Zhang
 Date: 2023-02-28 21:16:34
 LastEditors: Xuesong_Zhang
-LastEditTime: 2023-03-01 20:21:51
+LastEditTime: 2023-03-03 23:13:22
 '''
 import os
 import sys
@@ -150,6 +150,17 @@ def pixelToLL(result, X_first, Y_first, X_step, Y_step, save_path, first_name):
 
 
 def save_shp(result, filename):
+
+    # 处理shp属性
+    # shp字段  detect_id(OFTString 100) start_date(OFTDate) end_date(OFTDate) socres(OFTReal 10.8) geom(geometry)
+
+    imagename=os.path.basename(filename).split('_')
+    start_date=imagename[0].split('-')[0]
+    end_date=imagename[0].split('-')[1].split('.')[0]
+    detect_id=imagename[0]+"_"+imagename[1]+"_"+imagename[2]
+    socres=imagename[3].split('.shp')[0]
+    #print(detect_id,start_date,end_date,socres)
+
     gdal.SetConfigOption("GDAL_FILENAME_IS_UTF8", "NO")  # 为了支持中文路径
     gdal.SetConfigOption("SHAPE_ENCODING", "CP936")  # 为了使属性表字段支持中文
     ogr.RegisterAll()  # 注册所有的驱动
@@ -170,21 +181,41 @@ def save_shp(result, filename):
     if oLayer == None:
         print("Layer creation failed\n")
 
-    '''下面添加矢量数据，属性表数据、矢量数据坐标'''
-    oFieldID = ogr.FieldDefn("FieldID", ogr.OFTInteger)  # 创建一个叫FieldID的整型属性
-    oLayer.CreateField(oFieldID, 1)
+    # 下面添加矢量数据，属性表数据、矢量数据坐标
+    oFiel_detect_id=ogr.FieldDefn("Detect_id",ogr.OFTString)
+    oFiel_detect_id.SetWidth(100)
+    oLayer.CreateField(oFiel_detect_id, 1)
 
-    oFieldName = ogr.FieldDefn(
-        "FieldName", ogr.OFTString)  # 创建一个叫FieldName的字符型属性
-    oFieldName.SetWidth(100)  # 定义字符长度为100
-    oLayer.CreateField(oFieldName, 1)
+    oFiel_start_date=ogr.FieldDefn("Start_date",ogr.OFTDate)
+    oLayer.CreateField(oFiel_start_date, 1)
+
+    oFiel_end_date=ogr.FieldDefn("End_date",ogr.OFTDate)
+    oLayer.CreateField(oFiel_end_date, 1)
+
+    oFiel_socres=ogr.FieldDefn("Socres",ogr.OFTDate)
+    oLayer.CreateField(oFiel_socres, 1)
+
+
+    # oFieldID = ogr.FieldDefn("FieldID", ogr.OFTInteger)  # 创建一个叫FieldID的整型属性
+    # oLayer.CreateField(oFieldID, 1)
+
+    # oFieldName = ogr.FieldDefn(
+    #     "FieldName", ogr.OFTString)  # 创建一个叫FieldName的字符型属性
+    # oFieldName.SetWidth(100)  # 定义字符长度为100
+    # oLayer.CreateField(oFieldName, 1)
 
     oDefn = oLayer.GetLayerDefn()  # 定义要素
 
     # 创建单个面
     oFeatureTriangle = ogr.Feature(oDefn)
-    oFeatureTriangle.SetField(0, 0)  # 第一个参数表示第几个字段，第二个参数表示字段的值
-    oFeatureTriangle.SetField(1, "Detected mining")
+    # oFeatureTriangle.SetField(0, 0)  # 第一个参数表示第几个字段，第二个参数表示字段的值
+    # oFeatureTriangle.SetField(1, "Detected mining")
+    oFeatureTriangle.SetField(0, detect_id)
+    oFeatureTriangle.SetField(1, start_date)
+    oFeatureTriangle.SetField(2, end_date)
+    oFeatureTriangle.SetField(3, socres)
+
+
     ring = ogr.Geometry(ogr.wkbLinearRing)  # 构建几何类型:线
     for i in result:
         ring.AddPoint(i[0], i[1])
@@ -213,7 +244,7 @@ def fileAutoDetect(pic_file, pic_path, out_path):
         pixelToLL(contours, float(ls[1]), float(ls[2]), float(
             ls[3]), float(ls[4]), out_path, filename)
 
-
+'''
 def main(argv):
     print("*****************************************")
     print("*          pictures auto detect         *")
@@ -232,3 +263,7 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
+'''
+
+
+save_shp("result", "./data/result/20171201-20171213.diff.test1.sm_17_0_0.8628656.shp")
