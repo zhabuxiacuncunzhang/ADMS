@@ -11,17 +11,17 @@ Automatic detection of mining subsidence
 
 # Python files
 
-1. bmp2png.py
-   * Convert the color picture of the wrapped interferogram produced by GAMMA to png format
+* bmp2png.py
+  * Convert the color picture of the wrapped interferogram produced by GAMMA to png format
 
-2. cutPic.py
-   * Crops the png picture to 800*800 pixels
+* cutPic.py
+  * Crops the png picture to 800*800 pixels
 
-3. picAutoDetect.py
-    * Automatic detection
+* picAutoDetect.py
+  * Automatic detection
 
-4. multiSHP2one.py
-   * Merge multiple SHP files into one SHP file
+* multiSHP2one.py
+  * Merge multiple SHP files into one SHP file
 
 # Usage
 
