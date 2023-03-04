@@ -4,7 +4,7 @@
  * @Author: Xuesong_Zhang
  * @Date: 2023-03-01 20:16:42
  * @LastEditors: Xuesong_Zhang
- * @LastEditTime: 2023-03-04 19:20:29
+ * @LastEditTime: 2023-03-04 19:21:46
 -->
 # ADMS
 Automatic detection of mining subsidence
@@ -19,4 +19,4 @@ Crops the png picture to 800*800 pixels
 Automatic detection
 
 ## multiSHP2one.py
-Merge multiple SHp files into one SHP file
+Merge multiple SHP files into one SHP file
