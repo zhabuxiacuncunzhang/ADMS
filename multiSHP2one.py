@@ -4,13 +4,12 @@ version:
 Author: Xuesong_Zhang
 Date: 2023-03-04 15:47:35
 LastEditors: Xuesong_Zhang
-LastEditTime: 2023-03-04 16:22:23
+LastEditTime: 2023-03-04 20:04:57
 '''
 import sys
 import glob
 import pandas as pd
 import geopandas as gpd
-from matplotlib import pyplot as plt
 
 def multiSHP2one(path,outputname):
     shapefiles = glob.glob(path+"/"+"*.shp")
