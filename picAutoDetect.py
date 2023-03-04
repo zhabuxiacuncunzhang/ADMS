@@ -4,7 +4,7 @@ version:
 Author: Xuesong_Zhang
 Date: 2023-02-28 21:16:34
 LastEditors: Xuesong_Zhang
-LastEditTime: 2023-03-03 23:13:22
+LastEditTime: 2023-03-04 15:35:19
 '''
 import os
 import sys
@@ -156,10 +156,11 @@ def save_shp(result, filename):
 
     imagename=os.path.basename(filename).split('_')
     start_date=imagename[0].split('-')[0]
+    start_date=start_date[0:4]+'/'+start_date[4:6]+'/'+start_date[6:8]
     end_date=imagename[0].split('-')[1].split('.')[0]
+    end_date=end_date[0:4]+'/'+end_date[4:6]+'/'+end_date[6:8]
     detect_id=imagename[0]+"_"+imagename[1]+"_"+imagename[2]
     socres=imagename[3].split('.shp')[0]
-    #print(detect_id,start_date,end_date,socres)
 
     gdal.SetConfigOption("GDAL_FILENAME_IS_UTF8", "NO")  # 为了支持中文路径
     gdal.SetConfigOption("SHAPE_ENCODING", "CP936")  # 为了使属性表字段支持中文
@@ -192,24 +193,16 @@ def save_shp(result, filename):
     oFiel_end_date=ogr.FieldDefn("End_date",ogr.OFTDate)
     oLayer.CreateField(oFiel_end_date, 1)
 
-    oFiel_socres=ogr.FieldDefn("Socres",ogr.OFTDate)
+    oFiel_socres=ogr.FieldDefn("Socres",ogr.OFTReal)
+    oFiel_socres.SetWidth(10)
+    oFiel_socres.SetPrecision(8)
     oLayer.CreateField(oFiel_socres, 1)
-
-
-    # oFieldID = ogr.FieldDefn("FieldID", ogr.OFTInteger)  # 创建一个叫FieldID的整型属性
-    # oLayer.CreateField(oFieldID, 1)
-
-    # oFieldName = ogr.FieldDefn(
-    #     "FieldName", ogr.OFTString)  # 创建一个叫FieldName的字符型属性
-    # oFieldName.SetWidth(100)  # 定义字符长度为100
-    # oLayer.CreateField(oFieldName, 1)
 
     oDefn = oLayer.GetLayerDefn()  # 定义要素
 
     # 创建单个面
     oFeatureTriangle = ogr.Feature(oDefn)
-    # oFeatureTriangle.SetField(0, 0)  # 第一个参数表示第几个字段，第二个参数表示字段的值
-    # oFeatureTriangle.SetField(1, "Detected mining")
+    # 第一个参数表示第几个字段，第二个参数表示字段的值
     oFeatureTriangle.SetField(0, detect_id)
     oFeatureTriangle.SetField(1, start_date)
     oFeatureTriangle.SetField(2, end_date)
@@ -244,7 +237,7 @@ def fileAutoDetect(pic_file, pic_path, out_path):
         pixelToLL(contours, float(ls[1]), float(ls[2]), float(
             ls[3]), float(ls[4]), out_path, filename)
 
-'''
+
 def main(argv):
     print("*****************************************")
     print("*          pictures auto detect         *")
@@ -263,7 +256,7 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-'''
 
 
-save_shp("result", "./data/result/20171201-20171213.diff.test1.sm_17_0_0.8628656.shp")
+
+#save_shp("result", "./data/result/20171201-20171213.diff.test1.sm_17_0_0.8628656.shp")
