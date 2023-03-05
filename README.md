@@ -4,9 +4,11 @@
  * @Author: Xuesong_Zhang
  * @Date: 2023-03-01 20:16:42
  * @LastEditors: Xuesong_Zhang
- * @LastEditTime: 2023-03-04 20:03:02
+ * @LastEditTime: 2023-03-05 14:26:56
 -->
+
 # ADMS
+
 Automatic detection of mining subsidence
 
 # Python files
@@ -29,7 +31,7 @@ Automatic detection of mining subsidence
    * You can use GAMMA, SARscape, GMTSAR, ISCE, etc, InSAR process software to process SAR images to get interferometry images.
    * Interferometry images do not need to be unwrapped, ADMS identifies the wrapped stripes.
    * Plot all interferometry images as RGB color images in *.png format.
-   * P.S. the file naming scheme is YYYYMMDD-YYYYMMDD.diff, please do not use <u>underscores</u>, as this will affect the processing later
+   * P.S. the file naming scheme is YYYYMMDD-YYYYMMDD.diff, please do not use $\underline{\text{underscores}}$, as this will affect the processing later
 2. bmp2png.py (Optional)
    * If you can only generate color images in RGBA \*.bmp format using software such as GAMMA, this script will provide conversion from RGBA \*.bmp format to RGB \*.png format.
    * Before starting this step, please place all the *.png images into one folder.
