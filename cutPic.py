@@ -4,7 +4,7 @@ version:
 Author: Xuesong_Zhang
 Date: 2023-03-01 14:54:46
 LastEditors: Xuesong_Zhang
-LastEditTime: 2023-03-01 17:24:13
+LastEditTime: 2023-03-06 20:29:28
 '''
 import os
 import sys
@@ -65,7 +65,7 @@ def toCutPng(picPath, resultPath, x_first, y_first, dx, dy):
     for file in files:
         if os.path.splitext(file)[1] == '.png':
             a, b = os.path.splitext(file)  # 拆分影像图的文件名称
-            this_dir = os.path.join(picPath + file)
+            this_dir = os.path.join(picPath + '/' + file)
             img = Image.open(this_dir)  # 按顺序打开某图片
             width, hight = img.size
             w = 800  # 宽度
@@ -88,7 +88,48 @@ def toCutPng(picPath, resultPath, x_first, y_first, dx, dy):
                     c3.append(yy)
                     c4.append(dx)
                     c5.append(dy)
+                    if x+w > width :
+                        new_img = img.crop((width-w, y, width, y + h))
+                        new_img.save(resultPath + "/" + a + "_" + str(_id) + b)
+                        aa = a + "_" + str(_id) + b
+                        c0.append(aa)
+                        _id += 1
+                        xx = x_first+(width-w)*dx
+                        c2.append(xx)
+                        x += w
+                        yy = y_first+y*dy
+                        c3.append(yy)
+                        c4.append(dx)
+                        c5.append(dy)
                 y = y + h
+                if y + h > hight:
+                    x=0
+                    while (x + w <= width):   # 控制宽度，图像多余固定尺寸总和部分不要了
+                        new_img = img.crop((x, hight-h, x + w, hight))
+                        new_img.save(resultPath + "/" + a + "_" + str(_id) + b)
+                        aa = a + "_" + str(_id) + b
+                        c0.append(aa)
+                        _id += 1
+                        xx = x_first+x*dx
+                        c2.append(xx)
+                        x += w
+                        yy = y_first+(hight-h)*dy
+                        c3.append(yy)
+                        c4.append(dx)
+                        c5.append(dy)
+                        if x+w > width :
+                            new_img = img.crop((width-w, hight-h, width, hight))
+                            new_img.save(resultPath + "/" + a + "_" + str(_id) + b)
+                            aa = a + "_" + str(_id) + b
+                            c0.append(aa)
+                            _id += 1
+                            xx = x_first+(width-w)*dx
+                            c2.append(xx)
+                            x += w
+                            yy = y_first+(hight-h)*dy
+                            c3.append(yy)
+                            c4.append(dx)
+                            c5.append(dy)
             c22 = np.round(c2, 8)
             c33 = np.round(c3, 8)
             c44 = np.round(c4, 10)
